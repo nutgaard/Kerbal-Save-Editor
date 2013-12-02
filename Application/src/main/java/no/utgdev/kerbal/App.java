@@ -42,7 +42,7 @@ public class App {
         }
         System.out.println("Viewplugins found: " + PluginCache.getInstance(ViewPlugin.class).getList().size());
         
-        File from = new File("G:\\Steam\\steamapps\\common\\Kerbal Space Program\\saves\\WMods\\quicksave.sfs");
+        File from = new File("./quicksave.sfs");
         List<String> content = SavefileReader.read(from);
         SavefileParser parser = new SavefileParser(from.getName(), content);
         final PropertyMap root = parser.parse();
