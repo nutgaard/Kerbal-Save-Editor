@@ -15,10 +15,16 @@ import javax.swing.tree.TreePath;
  * @author Nicklas
  */
 public class SelectiveTreeCellEditor extends WebTreeCellEditor {
+    private WebTree tree;
+
+    public SelectiveTreeCellEditor(WebTree tree) {
+        this.tree = tree;
+    }
+    
+    
 
     @Override
     public boolean isCellEditable(EventObject e) {
-        WebTree tree = (WebTree) e.getSource();
         if (super.isCellEditable(e) && tree.isEditable()){
             TreePath path = tree.getSelectionPath();
             return ((TreeNode)path.getLastPathComponent()).isLeaf();

@@ -4,7 +4,7 @@
  */
 package no.utgdev.kerbal.common.plugin;
 
-import javax.swing.JPanel;
+import java.awt.Component;
 import net.xeoh.plugins.base.Plugin;
 
 /**
@@ -12,6 +12,6 @@ import net.xeoh.plugins.base.Plugin;
  * @author Nicklas
  */
 public interface ViewPlugin extends Plugin {
-    public String getTabName();
-    public JPanel getView();
+    public String getName();
+    public Component getView();
 }

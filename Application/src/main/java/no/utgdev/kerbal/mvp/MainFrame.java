@@ -57,7 +57,7 @@ public class MainFrame extends JFrame {
         WebTree tree = new WebTree(TreeModelCreator.create(rootMap));
         tree.setShowsRootHandles(true);
         tree.setEditable(true);
-        TreeCellEditor editor = new SelectiveTreeCellEditor();
+        TreeCellEditor editor = new SelectiveTreeCellEditor(tree);
         tree.setCellEditor(editor);
         
         tree.setSelectionMode(WebTree.CONTIGUOUS_TREE_SELECTION);

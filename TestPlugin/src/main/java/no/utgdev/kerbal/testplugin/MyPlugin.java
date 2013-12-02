@@ -1,5 +1,6 @@
 package no.utgdev.kerbal.testplugin;
 
+import java.awt.Component;
 import javax.swing.JPanel;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import net.xeoh.plugins.base.annotations.events.Init;
@@ -17,12 +18,12 @@ public class MyPlugin implements ViewPlugin {
         
     }
 
-    public String getTabName() {
+    public String getName() {
         System.out.println(getClass().getName() + ": user.home: " + System.getProperty("user.home"));
         return "Hei";
     }
 
-    public JPanel getView() {
+    public Component getView() {
         return new JPanel();
     }
 }
