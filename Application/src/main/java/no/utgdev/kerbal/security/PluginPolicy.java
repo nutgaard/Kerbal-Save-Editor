@@ -10,6 +10,7 @@ import java.security.PermissionCollection;
 import java.security.Permissions;
 import java.security.Policy;
 import java.security.cert.Certificate;
+import java.util.PropertyPermission;
 
 /**
  *
@@ -24,6 +25,7 @@ public class PluginPolicy extends Policy {
         System.out.println("Creating permissions for: "+codeSource.getLocation().toString());
         System.out.println("Cert length: "+certs+" "+signers);
         Permissions p = new Permissions();
+        p.add(new PropertyPermission("WebLookAndFeel.*", "read"));
 //        p.add(new LoggingPermission("control", null));
         return p;
     }

@@ -33,7 +33,7 @@ public class PluginCache<T extends Plugin> {
         }
     }
 
-    public static PluginCache getInstance(Class<? extends Plugin> cls) {
+    public static <T extends Plugin> PluginCache<T> getInstance(Class<T> cls) {
         synchronized (instances) {
             PluginCache instance = instances.get(cls);
             if (instance == null) {

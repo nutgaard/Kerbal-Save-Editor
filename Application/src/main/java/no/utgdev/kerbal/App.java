@@ -11,6 +11,7 @@ import net.xeoh.plugins.base.Plugin;
 import net.xeoh.plugins.base.PluginManager;
 import net.xeoh.plugins.base.impl.PluginManagerFactory;
 import net.xeoh.plugins.base.util.PluginManagerUtil;
+import no.utgdev.kerbal.common.plugin.OverviewPlugin;
 import no.utgdev.kerbal.common.plugin.ViewPlugin;
 import no.utgdev.kerbal.io.SavefileCreator;
 import no.utgdev.kerbal.io.SavefileParser;
@@ -35,7 +36,8 @@ public class App {
         PluginManagerUtil pmu = new PluginManagerUtil(pmf);
 
         Class<? extends Plugin>[] pluginClasses = new Class[]{
-            ViewPlugin.class
+            ViewPlugin.class,
+            OverviewPlugin.class
         };
         for (Class<? extends Plugin> pluginCls : pluginClasses) {
             PluginCache.create(pluginCls, (Collection) pmu.getPlugins(pluginCls));
