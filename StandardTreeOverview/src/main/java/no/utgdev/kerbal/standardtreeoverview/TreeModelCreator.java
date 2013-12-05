@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package no.utgdev.kerbal.mvp.utils.tree;
+package no.utgdev.kerbal.standardtreeoverview;
 
 import com.alee.laf.tree.UniqueNode;
 import com.google.common.collect.Lists;
@@ -10,7 +10,6 @@ import java.util.List;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreeNode;
 import no.utgdev.kerbal.common.treemodel.IProperty;
 import no.utgdev.kerbal.common.treemodel.Property;
 import no.utgdev.kerbal.common.treemodel.PropertyMap;
@@ -42,7 +41,6 @@ public class TreeModelCreator {
         }
         for (Property property : properties){
             UniqueNode propertyParent = new UniqueNode(property);
-            propertyParent.add(new UniqueNode(property.getValue()));
             parent.add(propertyParent);
         }
     }

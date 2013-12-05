@@ -6,7 +6,10 @@ package no.utgdev.kerbal.io;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -20,7 +23,7 @@ public class SavefileReader {
 
     public static LinkedList<String> read(File file) {
         LinkedList<String> list = new LinkedList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), Charset.forName("UTF-8")))) {
             String line = null;
             while ((line = br.readLine()) != null) {
                 list.add(line);

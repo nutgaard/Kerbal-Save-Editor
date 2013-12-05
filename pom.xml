@@ -64,6 +64,7 @@
                 <module>Common</module>
                 <module>Application</module>
                 <module>TestPlugin</module>
+                <module>StandardTreeOverview</module>
             </modules>
         </profile>
     </profiles>

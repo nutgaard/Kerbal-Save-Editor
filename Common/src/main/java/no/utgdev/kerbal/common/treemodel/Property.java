@@ -43,6 +43,6 @@ public class Property implements IProperty {
     }
     @Override
     public String toString() {
-        return key;
+        return key+": "+value;
     }
 }

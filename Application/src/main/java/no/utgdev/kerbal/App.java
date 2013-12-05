@@ -40,9 +40,11 @@ public class App {
             OverviewPlugin.class
         };
         for (Class<? extends Plugin> pluginCls : pluginClasses) {
+            System.out.print("Seaching for: "+pluginCls);
             PluginCache.create(pluginCls, (Collection) pmu.getPlugins(pluginCls));
+            System.out.println(" found: " + PluginCache.getInstance(pluginCls).getList().size());
         }
-        System.out.println("Viewplugins found: " + PluginCache.getInstance(ViewPlugin.class).getList().size());
+        
         
         File from = new File("./quicksave.sfs");
         List<String> content = SavefileReader.read(from);

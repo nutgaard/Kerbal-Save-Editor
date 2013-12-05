@@ -4,13 +4,9 @@
  */
 package no.utgdev.kerbal.mvp;
 
-import com.alee.laf.scroll.WebScrollPane;
 import com.alee.laf.splitpane.WebSplitPane;
-import com.alee.laf.tree.TreeSelectionStyle;
-import com.alee.laf.tree.WebTree;
 import com.google.common.collect.ImmutableList;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -18,13 +14,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
-import javax.swing.tree.TreeCellEditor;
 import no.utgdev.kerbal.common.plugin.OverviewPlugin;
 import no.utgdev.kerbal.common.plugin.ViewPlugin;
 import no.utgdev.kerbal.common.treemodel.PropertyMap;
 import no.utgdev.kerbal.i18n.Resources;
-import no.utgdev.kerbal.mvp.utils.tree.SelectiveTreeCellEditor;
-import no.utgdev.kerbal.mvp.utils.tree.TreeModelCreator;
 import no.utgdev.kerbal.plugin.PluginCache;
 
 /**
@@ -57,25 +50,9 @@ public class MainFrame extends JFrame {
     private WebSplitPane createLayout() {
         WebSplitPane splitpane = new WebSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         splitpane.setOneTouchExpandable(true);
-        splitpane.setDividerLocation(350);
+        splitpane.setDividerLocation(470);
         splitpane.setContinuousLayout(true);
-        
         return splitpane;
-        
-    }
-    private Component createOverview() {
-        WebTree tree = new WebTree(TreeModelCreator.create(rootMap));
-        tree.setShowsRootHandles(true);
-        tree.setEditable(true);
-        TreeCellEditor editor = new SelectiveTreeCellEditor(tree);
-        tree.setCellEditor(editor);
-        
-        tree.setSelectionMode(WebTree.CONTIGUOUS_TREE_SELECTION);
-        tree.setSelectionStyle(TreeSelectionStyle.group);
-        
-        WebScrollPane scroll = new WebScrollPane(tree);
-        scroll.setPreferredSize(new Dimension(200, 150) );
-        return scroll;
     }
     private Component createTabbedView() {
         JPanel p = new JPanel();
@@ -83,4 +60,8 @@ public class MainFrame extends JFrame {
         return p;
     }
     private static String lorem = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
+
+    private Component createOverview() {
+        return overviewPlugins.get(0).getView(rootMap);
+    }
 }
