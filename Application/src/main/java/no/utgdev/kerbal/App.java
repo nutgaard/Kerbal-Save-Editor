@@ -43,6 +43,9 @@ public class App {
             System.out.print("Seaching for: "+pluginCls);
             PluginCache.create(pluginCls, (Collection) pmu.getPlugins(pluginCls));
             System.out.println(" found: " + PluginCache.getInstance(pluginCls).getList().size());
+            for (Plugin p : PluginCache.getInstance(pluginCls).getList()) {
+                System.out.println("    "+p);
+            }
         }
         
         

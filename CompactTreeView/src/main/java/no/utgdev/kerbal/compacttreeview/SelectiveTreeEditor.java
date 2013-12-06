@@ -2,12 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package no.utgdev.kerbal.standardtreeoverview;
+package no.utgdev.kerbal.compacttreeview;
 
 import com.alee.extended.image.WebImage;
 import com.alee.extended.layout.HorizontalFlowLayout;
 import com.alee.laf.label.WebLabel;
-import com.alee.laf.panel.WebPanel;
 import com.alee.laf.text.WebTextField;
 import com.alee.laf.tree.UniqueNode;
 import com.alee.laf.tree.WebTree;
@@ -16,9 +15,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.util.EventObject;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTree;
-import javax.swing.SpringLayout;
-import javax.swing.SpringLayout.Constraints;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import no.utgdev.kerbal.common.treemodel.Property;
@@ -27,11 +25,11 @@ import no.utgdev.kerbal.common.treemodel.Property;
  *
  * @author Nicklas
  */
-public class SelectiveTreeCellEditor extends WebTreeCellEditor {
+public class SelectiveTreeEditor extends WebTreeCellEditor {
 
     private WebTree tree;
 
-    public SelectiveTreeCellEditor(WebTree tree) {
+    public SelectiveTreeEditor(WebTree tree) {
         this.tree = tree;
     }
 
@@ -40,17 +38,20 @@ public class SelectiveTreeCellEditor extends WebTreeCellEditor {
             final boolean leaf, final int row) {
         UniqueNode node = (UniqueNode) value;
         Property property = (Property) node.getUserObject();
-        
-        WebPanel panel = new WebPanel(new HorizontalFlowLayout(2, true));
-        
-        panel.setMargin(0);
+
+        JPanel panel = new JPanel(new HorizontalFlowLayout(2, true));
+
+//        panel.setMargin(0);
         panel.setBackground(Color.white);
-        
-        final JLabel component = (JLabel)tree.getCellRenderer().getTreeCellRendererComponent(tree, value, isSelected, expanded, leaf, row, true);
+
+        final JLabel component = (JLabel) tree.getCellRenderer().getTreeCellRendererComponent(tree, value, isSelected, expanded, leaf, row, true);
         if (component.getIcon() != null) {
             panel.add(new WebImage(component.getIcon()));
         }
-        
+        System.out.println("Property: " + property);
+        System.out.println("Property: " + property.getClass());
+        System.out.println("Property: " + property.getKey());
+        System.out.println("Property: " + property.getValue());
         panel.add(new WebLabel(property.getKey() + ": "));
         WebTextField field = new WebTextField(property.getValue());
         field.setMinimumWidth(150);

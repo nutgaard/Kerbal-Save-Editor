@@ -25,6 +25,7 @@ import no.utgdev.kerbal.plugin.PluginCache;
  * @author Nicklas
  */
 public class MainFrame extends JFrame {
+
     private static ResourceBundle i18n = Resources.strings;
     private static Properties settings = Resources.settings;
     private static ImmutableList<ViewPlugin> viewPlugins = PluginCache.getInstance(ViewPlugin.class).getList();
@@ -36,17 +37,20 @@ public class MainFrame extends JFrame {
         this.rootMap = rootMap;
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 //        getContentPane().add(new JLabel(i18n.getString("farewell")), BorderLayout.CENTER);
-       
-        WebSplitPane splitpane = createLayout();
+
+        final WebSplitPane splitpane = createLayout();
         getContentPane().add(splitpane);
-        
+
         splitpane.setLeftComponent(createOverview());
         splitpane.setRightComponent(createTabbedView());
-        
+
+
+
         pack();
         setVisible(true);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
+
     private WebSplitPane createLayout() {
         WebSplitPane splitpane = new WebSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         splitpane.setOneTouchExpandable(true);
@@ -54,6 +58,7 @@ public class MainFrame extends JFrame {
         splitpane.setContinuousLayout(true);
         return splitpane;
     }
+
     private Component createTabbedView() {
         JPanel p = new JPanel();
         p.add(new JLabel("Hei"));
@@ -62,6 +67,13 @@ public class MainFrame extends JFrame {
     private static String lorem = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
 
     private Component createOverview() {
+        String overviewName = settings.getProperty("defaultOverview");
+        for (OverviewPlugin op : overviewPlugins) {
+            if (op.getName().equals(overviewName)) {
+                System.out.println("Overview: " + op);
+                return op.getView(rootMap);
+            }
+        }
         return overviewPlugins.get(0).getView(rootMap);
     }
 }
