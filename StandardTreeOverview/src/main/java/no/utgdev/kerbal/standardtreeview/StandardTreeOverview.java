@@ -1,4 +1,4 @@
-package no.utgdev.kerbal.common.ui;
+package no.utgdev.kerbal.standardtreeview;
 
 
 import com.alee.laf.scroll.WebScrollPane;
@@ -10,6 +10,7 @@ import javax.swing.tree.TreeCellEditor;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import no.utgdev.kerbal.common.plugin.OverviewPlugin;
 import no.utgdev.kerbal.common.treemodel.PropertyMap;
+import no.utgdev.kerbal.common.ui.SelectiveTreeCellEditor;
 
 /**
  * Hello world!

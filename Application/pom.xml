@@ -24,11 +24,6 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>no.utgdev.kerbal</groupId>
-            <artifactId>StandardTreeOverview</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
             <groupId>net.xeon</groupId>
             <artifactId>jspf.core</artifactId>
             <version>1.0.3</version>

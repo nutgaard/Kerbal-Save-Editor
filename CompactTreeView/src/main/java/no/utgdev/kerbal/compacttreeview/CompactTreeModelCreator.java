@@ -30,50 +30,32 @@ public class CompactTreeModelCreator {
         
         return new DefaultTreeModel(root);
     }
-//    private static void recursiveAddToParent(DefaultMutableTreeNode parent, IProperty parentMap) {
-//        List<Property> properties = Lists.newLinkedList();
-//        Map<String, List<PropertyMap>> equals = Maps.newLinkedHashMap();
-//        
-//        for (IProperty property : parentMap.getChildren()) {
-//            if (property instanceof PropertyMap) {
-//                PropertyMap map = (PropertyMap)property;
-//                put(equals, map);
-//            }else {
-//                properties.add((Property)property);
-//            }
-//        }
-//        for (Entry<String, List<PropertyMap>> entry : equals.entrySet()){
-//            if (entry.getValue().size() > 1) {
-//                //createParent
-//                UniqueNode newParent = new UniqueNode(entry.getKey()+"'S");
-//                parent.add(newParent);
-//                for (PropertyMap pm : entry.getValue()){
-//                    UniqueNode newnewParent = new UniqueNode(pm);
-//                    newParent.add(newnewParent);
-//                    recursiveAddToParent(newnewParent, pm);
-//                }
-//            }else {
-//                UniqueNode newParent = new UniqueNode(entry.getValue().get(0));
-//                parent.add(newParent);
-//                recursiveAddToParent(newParent, entry.getValue().get(0));
-//            }
-//        }
-//        for (Property property : properties){
-//            UniqueNode propertyParent = new UniqueNode(property);
-//            parent.add(propertyParent);
-//        }
-//    }
     private static void recursiveAddToParent(DefaultMutableTreeNode parent, IProperty parentMap) {
         List<Property> properties = Lists.newLinkedList();
+        Map<String, List<PropertyMap>> equals = Maps.newLinkedHashMap();
         
         for (IProperty property : parentMap.getChildren()) {
             if (property instanceof PropertyMap) {
                 PropertyMap map = (PropertyMap)property;
-                UniqueNode newParent = new UniqueNode(map);
-                parent.add(newParent);
-                recursiveAddToParent(newParent, property);
+                put(equals, map);
             }else {
                 properties.add((Property)property);
+            }
+        }
+        for (Entry<String, List<PropertyMap>> entry : equals.entrySet()){
+            if (entry.getValue().size() > 1) {
+                //createParent
+                UniqueNode newParent = new UniqueNode(entry.getKey()+"'S");
+                parent.add(newParent);
+                for (PropertyMap pm : entry.getValue()){
+                    UniqueNode newnewParent = new UniqueNode(pm);
+                    newParent.add(newnewParent);
+                    recursiveAddToParent(newnewParent, pm);
+                }
+            }else {
+                UniqueNode newParent = new UniqueNode(entry.getValue().get(0));
+                parent.add(newParent);
+                recursiveAddToParent(newParent, entry.getValue().get(0));
             }
         }
         for (Property property : properties){

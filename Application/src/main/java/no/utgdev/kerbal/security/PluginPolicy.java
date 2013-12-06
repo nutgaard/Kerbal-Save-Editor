@@ -26,6 +26,7 @@ public class PluginPolicy extends Policy {
         System.out.println("Cert length: "+certs+" "+signers);
         Permissions p = new Permissions();
         p.add(new PropertyPermission("WebLookAndFeel.*", "read"));
+        p.add(new RuntimePermission("getClassLoader"));
 //        p.add(new LoggingPermission("control", null));
         return p;
     }

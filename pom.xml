@@ -68,6 +68,7 @@
                 <module>Application</module>
                 <module>TestPlugin</module>
                 <module>StandardTreeOverview</module>
+                <module>CompactTreeView</module>
             </modules>
         </profile>
         <profile>
@@ -75,15 +76,9 @@
             <modules>
                 <module>TestPlugin</module>
                 <module>StandardTreeOverview</module>
+                <module>CompactTreeView</module>
             </modules>
         </profile>
     </profiles>
-    <!--    <modules>
-        <module>common</module>
-        <module>application</module>
-        <module>TestPlugin</module>
-    </modules>-->
-    <modules>
-        <module>CompactTreeView</module>
-    </modules>
+    
 </project>

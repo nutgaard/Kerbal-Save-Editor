@@ -9,6 +9,7 @@ import javax.swing.tree.TreeCellEditor;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import no.utgdev.kerbal.common.plugin.OverviewPlugin;
 import no.utgdev.kerbal.common.treemodel.PropertyMap;
+import no.utgdev.kerbal.common.ui.SelectiveTreeCellEditor;
 
 /**
  * Hello world!
@@ -28,7 +29,7 @@ public class CompactTreeView implements OverviewPlugin {
         WebTree tree = new WebTree(CompactTreeModelCreator.create(model));
         tree.setShowsRootHandles(true);
         tree.setEditable(true);
-        TreeCellEditor editor = new SelectiveTreeEditor(tree);
+        TreeCellEditor editor = new SelectiveTreeCellEditor(tree);
         tree.setCellEditor(editor);
         
         tree.setSelectionMode(WebTree.CONTIGUOUS_TREE_SELECTION);
