@@ -23,5 +23,8 @@ mvn install:install-file -Dfile=jspf.core-1.0.3-javadoc.jar -DgroupId=net.xeon -
 
 Build and run
 ```
-mvn clean install && java -jar Application/target/application-1.0-SNAPSHOT.jar
+bash run.sh			#Tries to start application, if file does not exists: "mvn clean install -Pall"
+bash run.sh clean		#Removes all jar files recursively
+bash run.sh clean <profile>	#Removes all jar files recursively, "mvn clean install -P<profile>", then starts application
+bash run.sh <profile>		#"mvn clean install -P<profile>", then starts application
 ```
