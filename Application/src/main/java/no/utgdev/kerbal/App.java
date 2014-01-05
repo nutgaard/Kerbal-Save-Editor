@@ -10,6 +10,7 @@ import javax.swing.SwingUtilities;
 import net.xeoh.plugins.base.Plugin;
 import net.xeoh.plugins.base.PluginManager;
 import net.xeoh.plugins.base.impl.PluginManagerFactory;
+import net.xeoh.plugins.base.options.addpluginsfrom.OptionReportAfter;
 import net.xeoh.plugins.base.util.PluginManagerUtil;
 import no.utgdev.kerbal.common.plugin.OverviewPlugin;
 import no.utgdev.kerbal.common.plugin.ViewPlugin;
@@ -31,7 +32,7 @@ public class App {
         System.setSecurityManager(new SecurityManager());
 
         PluginManager pmf = PluginManagerFactory.createPluginManager();
-        pmf.addPluginsFrom(new File("./").toURI());
+        pmf.addPluginsFrom(new File("./").toURI(), new OptionReportAfter());
 
         PluginManagerUtil pmu = new PluginManagerUtil(pmf);
 

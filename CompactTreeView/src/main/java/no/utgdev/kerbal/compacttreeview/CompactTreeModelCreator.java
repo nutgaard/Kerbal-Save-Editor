@@ -14,22 +14,34 @@ import java.util.Map.Entry;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
+import net.xeoh.plugins.base.annotations.PluginImplementation;
+import no.utgdev.kerbal.common.plugin.OverviewPlugin;
 import no.utgdev.kerbal.common.treemodel.IProperty;
 import no.utgdev.kerbal.common.treemodel.Property;
 import no.utgdev.kerbal.common.treemodel.PropertyMap;
 
-/**
- *
- * @author Nicklas
- */
-public class CompactTreeModelCreator {
-    public static TreeModel create(PropertyMap rootMap){
-        UniqueNode root = new UniqueNode(rootMap.getName());
+@PluginImplementation
+public class CompactTreeModelCreator implements OverviewPlugin {
+
+    @Override
+    public String getName() {
+        return "Compact Tree";
+    }
+
+    @Override
+    public TreeModel getTreeModel(PropertyMap model) {
+        UniqueNode root = new UniqueNode(model.getName());
         
-        recursiveAddToParent(root, rootMap);
+        recursiveAddToParent(root, model);
         
         return new DefaultTreeModel(root);
     }
+
+    @Override
+    public void update(PropertyMap model) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
     private static void recursiveAddToParent(DefaultMutableTreeNode parent, IProperty parentMap) {
         List<Property> properties = Lists.newLinkedList();
         Map<String, List<PropertyMap>> equals = Maps.newLinkedHashMap();

@@ -4,7 +4,7 @@
  */
 package no.utgdev.kerbal.common.plugin;
 
-import java.awt.Component;
+import javax.swing.tree.TreeModel;
 import net.xeoh.plugins.base.Plugin;
 import no.utgdev.kerbal.common.treemodel.PropertyMap;
 
@@ -14,6 +14,6 @@ import no.utgdev.kerbal.common.treemodel.PropertyMap;
  */
 public interface OverviewPlugin extends Plugin {
     public String getName();
-    public Component getView(PropertyMap model);
+    public TreeModel getTreeModel(PropertyMap model);
     public void update(PropertyMap model);
 }
