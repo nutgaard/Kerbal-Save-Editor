@@ -25,6 +25,6 @@ Build and run
 ```
 bash run.sh                 #Tries to start application, if file does not exists: "mvn clean install -Pall"
 bash run.sh clean           #Removes all jar files recursively
-bash run.sh clean <profile> #Removes all jar files recursively, "mvn clean install -P<profile>", then starts application
+bash run.sh clean <profile> #Removes all jar files recursively, "mvn clean install -P<profile>", then starts application. If profile does not create the application jar then a full rebuild will be initialized.
 bash run.sh <profile>       #"mvn clean install -P<profile>", then starts application
 ```
