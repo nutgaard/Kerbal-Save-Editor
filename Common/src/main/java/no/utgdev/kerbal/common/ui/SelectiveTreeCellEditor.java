@@ -13,6 +13,10 @@ import com.alee.laf.tree.WebTree;
 import com.alee.laf.tree.WebTreeCellEditor;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.EventObject;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -26,7 +30,6 @@ import no.utgdev.kerbal.common.treemodel.Property;
  * @author Nicklas
  */
 public class SelectiveTreeCellEditor extends WebTreeCellEditor {
-
     private WebTree tree;
 
     public SelectiveTreeCellEditor(WebTree tree) {
@@ -45,6 +48,8 @@ public class SelectiveTreeCellEditor extends WebTreeCellEditor {
         panel.setBackground(Color.white);
 
         final JLabel component = (JLabel) tree.getCellRenderer().getTreeCellRendererComponent(tree, value, isSelected, expanded, leaf, row, true);
+        final WebTextField originalComponent = (WebTextField)super.getTreeCellEditorComponent(tree, value, isSelected, expanded, leaf, row);
+
         if (component.getIcon() != null) {
             panel.add(new WebImage(component.getIcon()));
         }
@@ -53,10 +58,12 @@ public class SelectiveTreeCellEditor extends WebTreeCellEditor {
         System.out.println("Property: " + property.getKey());
         System.out.println("Property: " + property.getValue());
         panel.add(new WebLabel(property.getKey() + ": "));
+        
         WebTextField field = new WebTextField(property.getValue());
+        addListeners(field);
         field.setMinimumWidth(150);
         panel.add(field);
-
+        
         return panel;
     }
 
@@ -74,5 +81,32 @@ public class SelectiveTreeCellEditor extends WebTreeCellEditor {
             return tn.isLeaf();
         }
         return false;
+    }
+
+    private void addListeners(WebTextField field) {
+        field.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Action: "+e);
+            }
+        });
+        field.addKeyListener(new KeyListener() {
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+                
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                System.out.println("KeyPress: "+e);
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                
+            }
+        });
     }
 }

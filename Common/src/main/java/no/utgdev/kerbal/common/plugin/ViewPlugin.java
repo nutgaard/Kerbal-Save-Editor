@@ -5,14 +5,13 @@
 package no.utgdev.kerbal.common.plugin;
 
 import java.awt.Component;
-import net.xeoh.plugins.base.Plugin;
 import no.utgdev.kerbal.common.treemodel.PropertyMap;
 
 /**
  *
  * @author Nicklas
  */
-public interface ViewPlugin extends Plugin {
+public interface ViewPlugin extends NamedPlugin {
     public String getName();
     public Component getView(PropertyMap model);
     public void update(PropertyMap model);

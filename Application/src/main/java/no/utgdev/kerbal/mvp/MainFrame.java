@@ -4,13 +4,9 @@
  */
 package no.utgdev.kerbal.mvp;
 
-import com.alee.laf.scroll.WebScrollPane;
 import com.alee.laf.splitpane.WebSplitPane;
-import com.alee.laf.tree.TreeSelectionStyle;
-import com.alee.laf.tree.WebTree;
 import com.google.common.collect.ImmutableList;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -18,12 +14,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
-import javax.swing.tree.TreeCellEditor;
-import javax.swing.tree.TreeModel;
 import no.utgdev.kerbal.common.plugin.OverviewPlugin;
 import no.utgdev.kerbal.common.plugin.ViewPlugin;
 import no.utgdev.kerbal.common.treemodel.PropertyMap;
-import no.utgdev.kerbal.common.ui.SelectiveTreeCellEditor;
 import no.utgdev.kerbal.i18n.Resources;
 import no.utgdev.kerbal.plugin.PluginCache;
 
@@ -46,6 +39,7 @@ public class MainFrame extends JFrame {
 //        getContentPane().add(new JLabel(i18n.getString("farewell")), BorderLayout.CENTER);
 
         final WebSplitPane splitpane = createLayout();
+
         getContentPane().add(splitpane);
 
         splitpane.setLeftComponent(createOverview());
@@ -75,27 +69,6 @@ public class MainFrame extends JFrame {
 
     private Component createOverview() {
         String overviewName = settings.getProperty("defaultOverview");
-        TreeModel model = overviewPlugins.get(0).getTreeModel(rootMap);
-        for (OverviewPlugin op : overviewPlugins) {
-            if (op.getName().equals(overviewName)) {
-                System.out.println("Overview: " + op);
-                model = op.getTreeModel(rootMap);
-                break;
-            }
-        }
-        
-        WebTree tree = new WebTree(model);
-        tree.setShowsRootHandles(true);
-        tree.setEditable(true);
-        TreeCellEditor editor = new SelectiveTreeCellEditor(tree);
-        tree.setCellEditor(editor);
-        
-        tree.setSelectionMode(WebTree.CONTIGUOUS_TREE_SELECTION);
-        tree.setSelectionStyle(TreeSelectionStyle.group);
-        
-        WebScrollPane scroll = new WebScrollPane(tree);
-        scroll.setPreferredSize(new Dimension(300, 150));
-        
-        return scroll;
+        return new OverviewHolder(overviewName, rootMap);
     }
 }

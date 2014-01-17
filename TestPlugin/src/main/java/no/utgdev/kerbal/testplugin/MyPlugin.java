@@ -21,7 +21,6 @@ public class MyPlugin implements ViewPlugin {
     }
 
     public String getName() {
-//        System.out.println(getClass().getName() + ": user.home: " + System.getProperty("user.home"));
         return this.getClass().getName();
     }
 
