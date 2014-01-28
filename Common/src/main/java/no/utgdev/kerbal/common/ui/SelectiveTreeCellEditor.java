@@ -9,6 +9,7 @@ import com.alee.laf.label.WebLabel;
 import com.alee.laf.panel.WebPanel;
 import com.alee.laf.text.WebTextField;
 import com.alee.laf.tree.UniqueNode;
+import com.alee.laf.tree.WebTree;
 import com.alee.laf.tree.WebTreeCellEditor;
 import java.awt.Color;
 import java.awt.Component;
@@ -35,10 +36,10 @@ import no.utgdev.kerbal.common.treemodel.Property;
  * @author Nicklas
  */
 public class SelectiveTreeCellEditor extends WebTreeCellEditor {
-    private JTree tree;
+    private WebTree tree;
     private Editor editor;
 
-    public SelectiveTreeCellEditor(JTree tree) {
+    public SelectiveTreeCellEditor(WebTree tree) {
         this.tree = tree;
         
     }

@@ -13,6 +13,7 @@ import net.xeoh.plugins.base.impl.PluginManagerFactory;
 import net.xeoh.plugins.base.options.addpluginsfrom.OptionReportAfter;
 import net.xeoh.plugins.base.util.PluginManagerUtil;
 import no.utgdev.kerbal.common.plugin.NamedPlugin;
+import no.utgdev.kerbal.common.plugin.OverviewContextMenuPlugin;
 import no.utgdev.kerbal.common.plugin.OverviewPlugin;
 import no.utgdev.kerbal.common.plugin.ViewPlugin;
 import no.utgdev.kerbal.io.SavefileCreator;
@@ -39,7 +40,8 @@ public class App {
 
         Class<? extends NamedPlugin>[] pluginClasses = new Class[]{
             ViewPlugin.class,
-            OverviewPlugin.class
+            OverviewPlugin.class,
+            OverviewContextMenuPlugin.class
         };
         for (Class<? extends NamedPlugin> pluginCls : pluginClasses) {
             System.out.print("Seaching for: "+pluginCls);

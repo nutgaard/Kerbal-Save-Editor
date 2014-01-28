@@ -4,6 +4,7 @@
  */
 package no.utgdev.kerbal.mvp;
 
+import no.utgdev.kerbal.mvp.contextmenu.ContextMenuHandler;
 import com.alee.laf.scroll.WebScrollPane;
 import com.alee.laf.tree.TreeSelectionStyle;
 import com.alee.laf.tree.WebTree;
@@ -16,6 +17,7 @@ import no.utgdev.kerbal.common.plugin.OverviewPlugin;
 import no.utgdev.kerbal.common.plugin.exception.PluginNotFoundException;
 import no.utgdev.kerbal.common.treemodel.PropertyMap;
 import no.utgdev.kerbal.common.ui.SelectiveTreeCellEditor;
+import no.utgdev.kerbal.mvp.contextmenu.ContextMenu;
 import no.utgdev.kerbal.plugin.PluginCache;
 
 /**
@@ -23,11 +25,12 @@ import no.utgdev.kerbal.plugin.PluginCache;
  * @author Nicklas
  */
 public class OverviewHolder extends JPanel {
+
     private static int borderSize = 5;
     private static PluginCache<OverviewPlugin> cache = PluginCache.getInstance(OverviewPlugin.class);
     private OverviewPlugin plugin;
     private PropertyMap model;
-    
+
     public OverviewHolder(String pluginName, PropertyMap propertyMap) {
         super();
         this.plugin = findPlugin(pluginName);
@@ -36,6 +39,7 @@ public class OverviewHolder extends JPanel {
         this.setBorder(BorderFactory.createEmptyBorder(borderSize, borderSize, borderSize, 0));
         initiate();
     }
+
     private OverviewPlugin findPlugin(String pluginName) throws PluginNotFoundException {
         OverviewPlugin p;
 
@@ -49,6 +53,7 @@ public class OverviewHolder extends JPanel {
         }
         return p;
     }
+
     private void initiate() {
         TreeModel treemodel = this.plugin.getTreeModel(model);
         WebTree tree = new WebTree(treemodel);
@@ -56,15 +61,14 @@ public class OverviewHolder extends JPanel {
         tree.setEditable(true);
         TreeCellEditor editor = new SelectiveTreeCellEditor(tree);
         tree.setCellEditor(editor);
-        
+
         tree.setSelectionMode(WebTree.CONTIGUOUS_TREE_SELECTION);
         tree.setSelectionStyle(TreeSelectionStyle.group);
-        
+
+        tree.addMouseListener(new ContextMenuHandler(tree));
+
         WebScrollPane scroll = new WebScrollPane(tree);
         scroll.setPreferredWidth(230);
         this.add(scroll);
     }
-    
-    
-    
 }

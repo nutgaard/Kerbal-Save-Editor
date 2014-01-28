@@ -12,7 +12,6 @@ import no.utgdev.kerbal.common.treemodel.PropertyMap;
  * @author Nicklas
  */
 public interface ViewPlugin extends NamedPlugin {
-    public String getName();
     public Component getView(PropertyMap model);
     public void update(PropertyMap model);
 }
