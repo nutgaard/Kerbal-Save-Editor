@@ -39,6 +39,7 @@ public class App {
         PluginManagerUtil pmu = new PluginManagerUtil(pmf);
 
         Class<? extends NamedPlugin>[] pluginClasses = new Class[]{
+            NamedPlugin.class,
             ViewPlugin.class,
             OverviewPlugin.class,
             OverviewContextMenuPlugin.class

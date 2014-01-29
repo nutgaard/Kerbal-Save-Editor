@@ -12,4 +12,5 @@ import net.xeoh.plugins.base.Plugin;
  */
 public interface NamedPlugin extends Plugin{
     public String getName();
+    public boolean hasI18n();
 }

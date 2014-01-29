@@ -82,4 +82,8 @@ public class CompactTreeModelCreator implements OverviewPlugin {
         }
         equals.get(map.getName()).add(map);
     }
+    @Override
+    public boolean hasI18n() {
+        return false;
+    }
 }

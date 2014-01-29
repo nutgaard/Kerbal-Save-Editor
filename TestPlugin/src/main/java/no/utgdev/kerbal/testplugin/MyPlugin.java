@@ -17,14 +17,13 @@ import no.utgdev.kerbal.common.treemodel.PropertyMap;
  */
 @PluginImplementation
 public class MyPlugin implements ViewPlugin, OverviewContextMenuPlugin {
-    
+
     @Init
     public void init() {
-        
     }
 
     public String getName() {
-        return this.getClass().getName();
+        return "MyPlugin";
     }
 
     public Component getView(PropertyMap model) {
@@ -34,7 +33,6 @@ public class MyPlugin implements ViewPlugin, OverviewContextMenuPlugin {
     }
 
     public void update(PropertyMap model) {
-        
     }
 
     public boolean accept(IProperty property) {
@@ -43,5 +41,10 @@ public class MyPlugin implements ViewPlugin, OverviewContextMenuPlugin {
 
     public WebMenuItem getComponent() {
         return new WebMenuItem("This is from testPlugin");
+    }
+
+    @Override
+    public boolean hasI18n() {
+        return true;
     }
 }

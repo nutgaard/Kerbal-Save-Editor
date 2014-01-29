@@ -53,4 +53,8 @@ public class TreeModelCreator implements OverviewPlugin {
             parent.add(propertyParent);
         }
     }
+    @Override
+    public boolean hasI18n() {
+        return false;
+    }
 }
