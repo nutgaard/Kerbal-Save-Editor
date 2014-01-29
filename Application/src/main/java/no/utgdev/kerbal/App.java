@@ -29,6 +29,7 @@ import no.utgdev.kerbal.plugin.PluginCache;
 import no.utgdev.kerbal.security.PluginPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.org.lidalia.sysoutslf4j.context.SysOutOverSLF4J;
 
 /**
  * Hello world!
@@ -40,14 +41,13 @@ public class App {
         Policy.setPolicy(new PluginPolicy());
         System.setSecurityManager(new SecurityManager());
         
+        SysOutOverSLF4J.sendSystemOutAndErrToSLF4J();
+        
         Logger logger = LoggerFactory.getLogger(App.class);
         logger.info("This is a message from logback");
         logger.error("Fuck off");
         
-        final JSPFProperties props = new JSPFProperties();
-        props.setProperty("net.xeoh.plugins.base.PluginManager.logging.level", "INFO");
-        
-        PluginManager pmf = PluginManagerFactory.createPluginManager(props);
+        PluginManager pmf = PluginManagerFactory.createPluginManager();
         pmf.addPluginsFrom(new File("./").toURI(), new OptionReportAfter());
 
         PluginManagerUtil pmu = new PluginManagerUtil(pmf);
