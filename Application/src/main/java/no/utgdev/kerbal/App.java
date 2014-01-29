@@ -3,18 +3,14 @@ package no.utgdev.kerbal;
 import com.alee.laf.WebLookAndFeel;
 import no.utgdev.kerbal.io.SavefileReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
 import java.security.Policy;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Level;
 import javax.swing.SwingUtilities;
 import net.xeoh.plugins.base.Plugin;
 import net.xeoh.plugins.base.PluginManager;
 import net.xeoh.plugins.base.impl.PluginManagerFactory;
 import net.xeoh.plugins.base.options.addpluginsfrom.OptionReportAfter;
-import net.xeoh.plugins.base.util.JSPFProperties;
 import net.xeoh.plugins.base.util.PluginManagerUtil;
 import no.utgdev.kerbal.common.i18n.I18n;
 import no.utgdev.kerbal.common.plugin.NamedPlugin;
@@ -36,19 +32,21 @@ import uk.org.lidalia.sysoutslf4j.context.SysOutOverSLF4J;
  *
  */
 public class App {
+    public static Logger logger = LoggerFactory.getLogger(App.class);
 
-    public static void main(String[] args) {       
+    public static void main(String[] args) {
+        logger.info("Starting application.");
+        logger.debug("Setting new policy and security manager.");
         Policy.setPolicy(new PluginPolicy());
         System.setSecurityManager(new SecurityManager());
         
+        logger.debug("Rewriting System.out and System.err to utilize slf4j.");
         SysOutOverSLF4J.sendSystemOutAndErrToSLF4J();
         
-        Logger logger = LoggerFactory.getLogger(App.class);
-        logger.info("This is a message from logback");
-        logger.error("Fuck off");
-        
+        File currentLocation = new File("./");
+        logger.info("Loading plugins from {}", currentLocation.toURI());
         PluginManager pmf = PluginManagerFactory.createPluginManager();
-        pmf.addPluginsFrom(new File("./").toURI(), new OptionReportAfter());
+        pmf.addPluginsFrom(currentLocation.toURI(), new OptionReportAfter());
 
         PluginManagerUtil pmu = new PluginManagerUtil(pmf);
 
@@ -59,11 +57,12 @@ public class App {
             OverviewContextMenuPlugin.class
         };
         for (Class<? extends NamedPlugin> pluginCls : pluginClasses) {
-            System.out.print("Seaching for: "+pluginCls);
-            PluginCache.create(pluginCls, (Collection) pmu.getPlugins(pluginCls));
-            System.out.println(" found: " + PluginCache.getInstance(pluginCls).getList().size());
+            logger.info("Seaching for: {}", pluginCls);
+            Collection plugins = pmu.getPlugins(pluginCls);
+            PluginCache.create(pluginCls, plugins);
+            logger.info("Found {} matches for {}", plugins.size(), pluginCls);
             for (Plugin p : PluginCache.getInstance(pluginCls).getList()) {
-                System.out.println("    "+p);
+                logger.debug("  {}", p);
             }
         }
         I18n.initiate(PluginCache.getInstance(NamedPlugin.class).getList());

@@ -10,7 +10,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import no.utgdev.kerbal.common.Settings;
 import no.utgdev.kerbal.common.plugin.NamedPlugin;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -18,14 +19,17 @@ import no.utgdev.kerbal.common.plugin.NamedPlugin;
  */
 public class I18n {
 
+    public static Logger logger = LoggerFactory.getLogger(I18n.class);
     private static I18n instance;
     private final ResourceBundle strings;
 
     public static void initiate(List<NamedPlugin> plugins) {
+        logger.info("Initiating I18n");
         if (instance != null) {
-            throw new InitializationException("I18n has allready been initiliazed.");
+            throw new InitializationException("Tried to reinitiate I18n.");
         }
         instance = new I18n(plugins);
+        logger.info("Initiation of I18n complete.");
     }
 
     public static I18n getInstance() {
@@ -40,17 +44,24 @@ public class I18n {
 
         Locale locale = new Locale(settings.getProperty("locale_lang"), settings.getProperty("locale_country"), settings.getProperty("locale_variant"));
         strings = ResourceBundle.getBundle("ResourceBundles.MessagesBundle", locale);
+        logger.debug("Core I18n definitions: ");
         System.out.println("Core: ");
         for (String key : strings.keySet()) {
+            logger.debug("  {}:{}", key, strings.getString(key));
             System.out.println("    " + key + ": " + strings.getString(key));
         }
 
         for (NamedPlugin np : plugins) {
             if (np.hasI18n()) {
-                ResourceBundle rb = ResourceBundle.getBundle("ResourceBundles." + np.getName(), locale, np.getClass().getClassLoader());
-                System.out.println("I18n for " + np);
-                for (String key : rb.keySet()) {
-                    System.out.println("    " + key + ": " + rb.getString(key));
+                try {
+                    ResourceBundle rb = ResourceBundle.getBundle("ResourceBundles." + np.getName(), locale, np.getClass().getClassLoader());
+                    logger.debug("I18n definitions for {}", np);
+                    System.out.println("I18n for " + np);
+                    for (String key : rb.keySet()) {
+                        logger.debug("  {}:{}", key, rb.getString(key));
+                    }
+                } catch (Exception e) {
+                    logger.error("Error loading I18n for "+np, e);
                 }
             }
         }

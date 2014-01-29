@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 import net.xeoh.plugins.base.Plugin;
 import no.utgdev.kerbal.common.plugin.NamedPlugin;
-import no.utgdev.kerbal.common.plugin.NamedPlugin;
 import no.utgdev.kerbal.common.plugin.exception.PluginNotFoundException;
 
 /**
@@ -37,7 +36,7 @@ public class PluginCache<T extends NamedPlugin> {
     }
     private static final Map<Class<? extends Plugin>, PluginCache> instances = new HashMap<>();
 
-    public static <T extends Plugin> void create(Class<T> cls, Collection<T> plugins) {
+    public static <T extends NamedPlugin> void create(Class<T> cls, Collection<T> plugins) {
         synchronized (instances) {
             PluginCache instance = new PluginCache(plugins);
             instances.put(cls, instance);
