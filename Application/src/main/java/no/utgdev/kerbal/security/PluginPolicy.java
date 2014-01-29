@@ -4,13 +4,13 @@
  */
 package no.utgdev.kerbal.security;
 
-import java.security.CodeSigner;
 import java.security.CodeSource;
 import java.security.PermissionCollection;
 import java.security.Permissions;
 import java.security.Policy;
-import java.security.cert.Certificate;
 import java.util.PropertyPermission;
+import java.util.logging.LoggingPermission;
+import net.xeoh.plugins.base.impl.PluginManagerFactory;
 
 /**
  *
@@ -23,6 +23,7 @@ public class PluginPolicy extends Policy {
         Permissions p = new Permissions();
         p.add(new PropertyPermission("WebLookAndFeel.*", "read"));
         p.add(new RuntimePermission("getClassLoader"));
+        p.add(new LoggingPermission("control", null));
         return p;
     }
 

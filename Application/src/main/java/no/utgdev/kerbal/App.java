@@ -3,14 +3,18 @@ package no.utgdev.kerbal;
 import com.alee.laf.WebLookAndFeel;
 import no.utgdev.kerbal.io.SavefileReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.security.Policy;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
 import javax.swing.SwingUtilities;
 import net.xeoh.plugins.base.Plugin;
 import net.xeoh.plugins.base.PluginManager;
 import net.xeoh.plugins.base.impl.PluginManagerFactory;
 import net.xeoh.plugins.base.options.addpluginsfrom.OptionReportAfter;
+import net.xeoh.plugins.base.util.JSPFProperties;
 import net.xeoh.plugins.base.util.PluginManagerUtil;
 import no.utgdev.kerbal.common.i18n.I18n;
 import no.utgdev.kerbal.common.plugin.NamedPlugin;
@@ -23,6 +27,8 @@ import no.utgdev.kerbal.common.treemodel.PropertyMap;
 import no.utgdev.kerbal.mvp.MainFrame;
 import no.utgdev.kerbal.plugin.PluginCache;
 import no.utgdev.kerbal.security.PluginPolicy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Hello world!
@@ -30,11 +36,18 @@ import no.utgdev.kerbal.security.PluginPolicy;
  */
 public class App {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) {       
         Policy.setPolicy(new PluginPolicy());
         System.setSecurityManager(new SecurityManager());
-
-        PluginManager pmf = PluginManagerFactory.createPluginManager();
+        
+        Logger logger = LoggerFactory.getLogger(App.class);
+        logger.info("This is a message from logback");
+        logger.error("Fuck off");
+        
+        final JSPFProperties props = new JSPFProperties();
+        props.setProperty("net.xeoh.plugins.base.PluginManager.logging.level", "INFO");
+        
+        PluginManager pmf = PluginManagerFactory.createPluginManager(props);
         pmf.addPluginsFrom(new File("./").toURI(), new OptionReportAfter());
 
         PluginManagerUtil pmu = new PluginManagerUtil(pmf);
