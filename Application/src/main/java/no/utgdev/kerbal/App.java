@@ -12,6 +12,7 @@ import net.xeoh.plugins.base.PluginManager;
 import net.xeoh.plugins.base.impl.PluginManagerFactory;
 import net.xeoh.plugins.base.options.addpluginsfrom.OptionReportAfter;
 import net.xeoh.plugins.base.util.PluginManagerUtil;
+import no.utgdev.kerbal.common.i18n.I18n;
 import no.utgdev.kerbal.common.plugin.NamedPlugin;
 import no.utgdev.kerbal.common.plugin.OverviewContextMenuPlugin;
 import no.utgdev.kerbal.common.plugin.OverviewPlugin;
@@ -20,7 +21,7 @@ import no.utgdev.kerbal.io.SavefileCreator;
 import no.utgdev.kerbal.io.SavefileParser;
 import no.utgdev.kerbal.common.treemodel.PropertyMap;
 import no.utgdev.kerbal.mvp.MainFrame;
-import no.utgdev.kerbal.common.plugin.PluginCache;
+import no.utgdev.kerbal.plugin.PluginCache;
 import no.utgdev.kerbal.security.PluginPolicy;
 
 /**
@@ -52,7 +53,7 @@ public class App {
                 System.out.println("    "+p);
             }
         }
-        
+        I18n.initiate(PluginCache.getInstance(NamedPlugin.class).getList());
         
         File from = new File("./quicksave.sfs");
         List<String> content = SavefileReader.read(from);

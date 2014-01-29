@@ -2,13 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package no.utgdev.kerbal.common.plugin;
+package no.utgdev.kerbal.plugin;
 
 import com.google.common.collect.ImmutableList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import net.xeoh.plugins.base.Plugin;
+import no.utgdev.kerbal.common.plugin.NamedPlugin;
 import no.utgdev.kerbal.common.plugin.NamedPlugin;
 import no.utgdev.kerbal.common.plugin.exception.PluginNotFoundException;
 
