@@ -18,7 +18,7 @@ import no.utgdev.kerbal.common.plugin.exception.PluginNotFoundException;
 import no.utgdev.kerbal.common.treemodel.PropertyMap;
 import no.utgdev.kerbal.common.ui.SelectiveTreeCellEditor;
 import no.utgdev.kerbal.mvp.contextmenu.ContextMenu;
-import no.utgdev.kerbal.plugin.PluginCache;
+import no.utgdev.kerbal.common.plugin.PluginCache;
 
 /**
  *

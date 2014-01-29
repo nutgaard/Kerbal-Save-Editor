@@ -2,13 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package no.utgdev.kerbal.i18n;
+package no.utgdev.kerbal.common.i18n;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
-import no.utgdev.kerbal.Settings;
+import no.utgdev.kerbal.common.Settings;
 import no.utgdev.kerbal.common.plugin.NamedPlugin;
-import no.utgdev.kerbal.plugin.PluginCache;
+import no.utgdev.kerbal.common.plugin.PluginCache;
 
 /**
  *
@@ -31,7 +31,11 @@ public class I18n {
 
         Locale locale = new Locale(settings.getProperty("locale_lang"), settings.getProperty("locale_country"), settings.getProperty("locale_variant"));
         strings = ResourceBundle.getBundle("ResourceBundles.MessagesBundle", locale);
-
+        System.out.println("Core: ");
+        for (String key : strings.keySet()){
+            System.out.println("    "+key+": "+strings.getString(key));
+        }
+        
         PluginCache<NamedPlugin> allPlugins = PluginCache.getInstance(NamedPlugin.class);
         for (NamedPlugin np : allPlugins.getList()) {
             if (np.hasI18n()) {

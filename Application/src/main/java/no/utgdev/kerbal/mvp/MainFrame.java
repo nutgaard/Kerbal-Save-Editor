@@ -11,9 +11,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
-import no.utgdev.kerbal.Settings;
+import no.utgdev.kerbal.common.Settings;
 import no.utgdev.kerbal.common.treemodel.PropertyMap;
-import no.utgdev.kerbal.i18n.I18n;
+import no.utgdev.kerbal.common.i18n.I18n;
 
 /**
  *

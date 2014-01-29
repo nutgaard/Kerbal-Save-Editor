@@ -9,7 +9,7 @@ import com.alee.laf.menu.WebPopupMenu;
 import java.awt.Component;
 import no.utgdev.kerbal.common.plugin.OverviewContextMenuPlugin;
 import no.utgdev.kerbal.common.treemodel.IProperty;
-import no.utgdev.kerbal.plugin.PluginCache;
+import no.utgdev.kerbal.common.plugin.PluginCache;
 
 /**
  *

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package no.utgdev.kerbal;
+package no.utgdev.kerbal.common;
 
 import java.io.File;
 import java.io.FileReader;

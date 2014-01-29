@@ -20,7 +20,7 @@ import no.utgdev.kerbal.io.SavefileCreator;
 import no.utgdev.kerbal.io.SavefileParser;
 import no.utgdev.kerbal.common.treemodel.PropertyMap;
 import no.utgdev.kerbal.mvp.MainFrame;
-import no.utgdev.kerbal.plugin.PluginCache;
+import no.utgdev.kerbal.common.plugin.PluginCache;
 import no.utgdev.kerbal.security.PluginPolicy;
 
 /**
