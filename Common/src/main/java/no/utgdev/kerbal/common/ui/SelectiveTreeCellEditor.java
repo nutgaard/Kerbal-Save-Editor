@@ -27,7 +27,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import no.utgdev.kerbal.common.exception.IllegalEditingOfNonleafNode;
-import no.utgdev.kerbal.common.i18n.I18n;
+import no.utgdev.kerbal.common.i18n.I18N;
 import no.utgdev.kerbal.common.plugin.exception.IllegalUserObjectException;
 import no.utgdev.kerbal.common.treemodel.IProperty;
 import no.utgdev.kerbal.common.treemodel.Property;
@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
  */
 public class SelectiveTreeCellEditor extends WebTreeCellEditor {
 
-    public static Logger logger = LoggerFactory.getLogger(I18n.class);
+    public static Logger logger = LoggerFactory.getLogger(I18N.class);
     private WebTree tree;
     private Editor editor;
 

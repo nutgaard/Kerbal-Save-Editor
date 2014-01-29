@@ -8,12 +8,11 @@ import com.alee.laf.splitpane.WebSplitPane;
 import java.awt.Component;
 import java.awt.HeadlessException;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import no.utgdev.kerbal.common.Settings;
+import no.utgdev.kerbal.common.i18n.I18N;
 import no.utgdev.kerbal.common.treemodel.PropertyMap;
-import no.utgdev.kerbal.common.i18n.I18n;
+import no.utgdev.kerbal.mvp.contextmenu.ViewHolder;
 
 /**
  *
@@ -21,7 +20,7 @@ import no.utgdev.kerbal.common.i18n.I18n;
  */
 public class MainFrame extends JFrame {
 
-    private static I18n i18n = I18n.getInstance();
+    private static I18N i18n = I18N.getInstance();
     private static Settings settings = Settings.getInstance();
     
     private PropertyMap rootMap;
@@ -54,9 +53,7 @@ public class MainFrame extends JFrame {
     }
 
     private Component createTabbedView() {
-        JPanel p = new JPanel();
-        p.add(new JLabel("Hei"));
-        return p;
+        return new ViewHolder(rootMap);
     }
 
     private Component createOverview() {

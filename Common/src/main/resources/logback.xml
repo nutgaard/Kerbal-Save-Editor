@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="false">
+<configuration>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%-70([%date{HH:mm:ss.SSS}] &lt;%thread/%logger{0}:%method\(\)::%line&gt;) %highlight(%level): %msg%n</pattern>
