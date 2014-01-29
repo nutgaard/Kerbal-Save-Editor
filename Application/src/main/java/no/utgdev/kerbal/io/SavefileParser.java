@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 import no.utgdev.kerbal.common.treemodel.Property;
 import no.utgdev.kerbal.common.treemodel.PropertyMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -15,23 +17,30 @@ import no.utgdev.kerbal.common.treemodel.PropertyMap;
  */
 public class SavefileParser {
 
+    public static Logger logger = LoggerFactory.getLogger(SavefileParser.class);
+
     public enum ParserEvents {
 
         TAG, OPENINGBRACKET, CLOSINGBRACKET, KEYVALUE;
     }
+    private String name;
     private LinkedList<String> content;
     private PropertyMap root;
     private String currentTag;
     private LinkedList<PropertyMap> currentPropertyMap;
 
     public SavefileParser(String name, List<String> content) {
+        logger.trace("Initializing SavefileParser for {}", name);
+        this.name = name;
         this.root = new PropertyMap(name);
         this.currentPropertyMap = new LinkedList<>();
         this.currentPropertyMap.push(root);
+        logger.trace("Wrapping content in new datastructure to avoid messing up original");
         this.content = new LinkedList<>(content);
     }
 
     public PropertyMap parse() {
+        logger.debug("Starting parsing of {}", this.name);
         String current = null;
 
         for (int i = 0, l = content.size(); i < l; i++) {
@@ -51,6 +60,7 @@ public class SavefileParser {
                 process(ParserEvents.KEYVALUE, pkv[0], pkv[1]);
             }
         }
+        logger.debug("Parsing of {} completed.", this.name);
         return root;
     }
 
@@ -69,19 +79,14 @@ public class SavefileParser {
             case CLOSINGBRACKET:
                 PropertyMap pm = this.currentPropertyMap.pop();
                 this.currentPropertyMap.peek().addChild(pm);
-                output(this.currentPropertyMap.peek().getName() + ": " + pm.getName());
+                logger.trace("{}: {}", this.currentPropertyMap.peek().getName(), pm.getName());
                 break;
             case KEYVALUE:
-                output(this.currentPropertyMap.peek().getName() + ": " + strings[0] + "->" + strings[1]);
+                logger.trace("{}: {}->{}", this.currentPropertyMap.peek().getName(), strings[0], strings[1]);
                 this.currentPropertyMap.peek().addChild(new Property(strings[0].trim(), strings[1].trim()));
                 break;
             default:
                 throw new IllegalArgumentException("Fuck");
-        }
-    }
-    private static void output(String s) {
-        if (false) {
-            System.out.println(s);
         }
     }
 }

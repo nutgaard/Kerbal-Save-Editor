@@ -32,6 +32,7 @@ import uk.org.lidalia.sysoutslf4j.context.SysOutOverSLF4J;
  *
  */
 public class App {
+
     public static Logger logger = LoggerFactory.getLogger(App.class);
 
     public static void main(String[] args) {
@@ -39,10 +40,10 @@ public class App {
         logger.debug("Setting new policy and security manager.");
         Policy.setPolicy(new PluginPolicy());
         System.setSecurityManager(new SecurityManager());
-        
+
         logger.debug("Rewriting System.out and System.err to utilize slf4j.");
         SysOutOverSLF4J.sendSystemOutAndErrToSLF4J();
-        
+
         File currentLocation = new File("./");
         logger.info("Loading plugins from {}", currentLocation.toURI());
         PluginManager pmf = PluginManagerFactory.createPluginManager();
@@ -66,20 +67,21 @@ public class App {
             }
         }
         I18n.initiate(PluginCache.getInstance(NamedPlugin.class).getList());
-        
+
         File from = new File("./quicksave.sfs");
         List<String> content = SavefileReader.read(from);
         SavefileParser parser = new SavefileParser(from.getName(), content);
         final PropertyMap root = parser.parse();
-        
+
+        logger.info("Initial setup completed, starting GUI.");
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 WebLookAndFeel.install();
-                new MainFrame(root);
+                MainFrame mf = new MainFrame(root);
             }
         });
-
+        logger.info("Its complete");
     }
 
     public static void tests() {
@@ -89,15 +91,15 @@ public class App {
         List<String> content = SavefileReader.read(from);
         SavefileParser parser = new SavefileParser(from.getName(), content);
         PropertyMap root = parser.parse();
-        System.out.println("Time to read/parse/lex: " + (System.currentTimeMillis() - start));
+        logger.debug("Time to read/parse/lex: {}", System.currentTimeMillis() - start);
 
         start = System.currentTimeMillis();
 
         SavefileCreator.write(to, root);
-        System.out.println("Time to recreate: " + (System.currentTimeMillis() - start));
+        logger.debug("Time to recreate: {}", System.currentTimeMillis() - start);
 
         start = System.currentTimeMillis();
         FileAcceptance.verify(from, to);
-        System.out.println("Verification: " + (System.currentTimeMillis() - start));
+        logger.debug("Verification: {}", System.currentTimeMillis() - start);
     }
 }

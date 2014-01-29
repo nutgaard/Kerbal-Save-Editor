@@ -7,21 +7,21 @@ package no.utgdev.kerbal.io;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Nicklas
  */
 public class SavefileReader {
+    public static Logger logger = LoggerFactory.getLogger(SavefileReader.class);
 
     public static LinkedList<String> read(File file) {
+        logger.debug("Reading raw data from {}", file);
         LinkedList<String> list = new LinkedList<>();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), Charset.forName("UTF-8")))) {
             String line = null;
@@ -29,17 +29,9 @@ public class SavefileReader {
                 list.add(line);
             }
         } catch (Exception ex) {
-            Logger.getLogger(SavefileReader.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error("An error accured when reading raw data.", ex);
         }
+        logger.debug("Reading completed, found a total of {} lines in file.", list.size());
         return list;
-    }
-    public static String readString(File file) {
-        List<String> data = read(file);
-        StringBuilder sb = new StringBuilder();
-        for (String s : data){
-            sb.append(s).append("\n");
-        }
-        System.out.println("Length: "+data.size());
-        return sb.toString();
     }
 }

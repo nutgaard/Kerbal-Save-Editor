@@ -27,21 +27,26 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import no.utgdev.kerbal.common.exception.IllegalEditingOfNonleafNode;
+import no.utgdev.kerbal.common.i18n.I18n;
 import no.utgdev.kerbal.common.plugin.exception.IllegalUserObjectException;
 import no.utgdev.kerbal.common.treemodel.IProperty;
 import no.utgdev.kerbal.common.treemodel.Property;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Nicklas
  */
 public class SelectiveTreeCellEditor extends WebTreeCellEditor {
+
+    public static Logger logger = LoggerFactory.getLogger(I18n.class);
     private WebTree tree;
     private Editor editor;
 
     public SelectiveTreeCellEditor(WebTree tree) {
         this.tree = tree;
-        
+
     }
 
     @Override
@@ -51,21 +56,23 @@ public class SelectiveTreeCellEditor extends WebTreeCellEditor {
         }
 
         UniqueNode node = (UniqueNode) value;
-        IProperty property = (IProperty)node.getUserObject();
-        
-        if (!(property instanceof Property)){
+        IProperty property = (IProperty) node.getUserObject();
+
+        if (!(property instanceof Property)) {
             throw new IllegalUserObjectException(property.getClass().toString());
         }
         final JLabel renderedComponent = (JLabel) tree.getCellRenderer().getTreeCellRendererComponent(tree, value, isSelected, expanded, leaf, row, leaf);
 
-        this.editor = new Editor((Property)property, renderedComponent.getIcon(), this);
-        
+        this.editor = new Editor((Property) property, renderedComponent.getIcon(), this);
+
         return this.editor;
     }
+
     @Override
     public Object getCellEditorValue() {
         return this.editor.getCellEditorValue();
     }
+
     @Override
     public boolean isCellEditable(EventObject e) {
         if (super.isCellEditable(e) && tree.isEditable()) {
@@ -84,6 +91,7 @@ public class SelectiveTreeCellEditor extends WebTreeCellEditor {
 }
 
 class Editor extends WebPanel implements CellEditor {
+
     private List<CellEditorListener> listeners;
     private Property property;
     private final WebLabel label = new WebLabel();
@@ -145,8 +153,6 @@ class Editor extends WebPanel implements CellEditor {
 
     @Override
     public boolean stopCellEditing() {
-        System.out.println("Stopping: "+this.property);
-        System.out.println("Stopping: "+this.text.getText());
         this.property.setValue(text.getText());
         this.editor.stopCellEditing();
         fireEditingStopped();
@@ -172,14 +178,13 @@ class Editor extends WebPanel implements CellEditor {
     private void fireEditingStopped() {
         ChangeEvent ce = new ChangeEvent(this);
         for (CellEditorListener l : listeners) {
-            System.out.println("Listener: "+l);
             l.editingStopped(ce);
         }
     }
+
     private void fireEditingCanceled() {
         ChangeEvent ce = new ChangeEvent(this);
         for (CellEditorListener l : listeners) {
-            System.out.println("Listener: "+l);
             l.editingCanceled(ce);
         }
     }

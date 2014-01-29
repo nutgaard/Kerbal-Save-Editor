@@ -7,10 +7,10 @@ package no.utgdev.kerbal.io;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import no.utgdev.kerbal.common.treemodel.IProperty;
 import no.utgdev.kerbal.common.treemodel.PropertyMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -18,12 +18,14 @@ import no.utgdev.kerbal.common.treemodel.PropertyMap;
  */
 public class SavefileCreator {
 
+    public static Logger logger = LoggerFactory.getLogger(SavefileCreator.class);
+
     public static void write(File file, PropertyMap root) {
         String filecontent = createContent(root);
         try (FileWriter fw = new FileWriter(file)) {
             fw.write(filecontent);
         } catch (IOException ex) {
-            Logger.getLogger(SavefileCreator.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error("An error accured while writing", ex);
         }
     }
 
@@ -36,5 +38,4 @@ public class SavefileCreator {
 
         return sb.toString();
     }
-
 }

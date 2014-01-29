@@ -44,19 +44,16 @@ public class I18n {
 
         Locale locale = new Locale(settings.getProperty("locale_lang"), settings.getProperty("locale_country"), settings.getProperty("locale_variant"));
         strings = ResourceBundle.getBundle("ResourceBundles.MessagesBundle", locale);
-        logger.debug("Core I18n definitions: ");
-        System.out.println("Core: ");
+        logger.info("Core I18n definitions: ");
         for (String key : strings.keySet()) {
             logger.debug("  {}:{}", key, strings.getString(key));
-            System.out.println("    " + key + ": " + strings.getString(key));
         }
 
         for (NamedPlugin np : plugins) {
             if (np.hasI18n()) {
                 try {
                     ResourceBundle rb = ResourceBundle.getBundle("ResourceBundles." + np.getName(), locale, np.getClass().getClassLoader());
-                    logger.debug("I18n definitions for {}", np);
-                    System.out.println("I18n for " + np);
+                    logger.info("I18n definitions for {}", np);
                     for (String key : rb.keySet()) {
                         logger.debug("  {}:{}", key, rb.getString(key));
                     }
