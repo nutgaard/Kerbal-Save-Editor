@@ -4,6 +4,10 @@
         <encoder>
             <pattern>%-70([%date{HH:mm:ss.SSS}] &lt;%thread/%logger{0}:%method\(\)::%line&gt;) %highlight(%level): %msg%n</pattern>
         </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>debug</level>
+            <onMatch></onMatch>
+        </filter>
     </appender>
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logFile.log</file>
@@ -12,12 +16,11 @@
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>%-70([%date{HH:mm:ss.SSS}] &lt;%thread/%logger{0}:%method\(\)::%line&gt;) %highlight(%level): %msg%n</pattern>
+            <pattern>%-70([%date{HH:mm:ss.SSS}] &lt;%thread/%logger{0}:%method\(\)::%line&gt;) %level: %msg%n</pattern>
         </encoder>
     </appender>
-    <root>
+    <root level="trace">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
     </root>
-    
 </configuration>

@@ -33,14 +33,14 @@ import uk.org.lidalia.sysoutslf4j.context.SysOutOverSLF4J;
  */
 public class App {
 
-    public static Logger logger = LoggerFactory.getLogger(App.class);
+    public static Logger logger;
 
     public static void main(String[] args) {
-        logger.info("Starting application.");
-        logger.debug("Setting new policy and security manager.");
         Policy.setPolicy(new PluginPolicy());
         System.setSecurityManager(new SecurityManager());
-
+        logger = LoggerFactory.getLogger(App.class);
+        logger.info("Starting application.");
+        logger.debug("Setting new policy and security manager.");
         logger.debug("Rewriting System.out and System.err to utilize slf4j.");
         SysOutOverSLF4J.sendSystemOutAndErrToSLF4J();
 
