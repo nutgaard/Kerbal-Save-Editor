@@ -68992,7 +68992,6 @@ GAME
 					}
 				}
 				MODULE
-				{
 					name = KASModuleGrab
 					isEnabled = True
 					grabbed = False
