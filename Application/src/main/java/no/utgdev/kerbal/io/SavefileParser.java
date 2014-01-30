@@ -6,8 +6,10 @@ package no.utgdev.kerbal.io;
 
 import java.util.LinkedList;
 import java.util.List;
+import no.utgdev.kerbal.common.treemodel.MarshallingObjectFactory;
 import no.utgdev.kerbal.common.treemodel.Property;
 import no.utgdev.kerbal.common.treemodel.PropertyMap;
+import no.utgdev.kerbal.common.treemodel.marshallingObjects.Savefile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,21 +27,21 @@ public class SavefileParser {
     }
     private String name;
     private LinkedList<String> content;
-    private PropertyMap root;
+    private Savefile savefile;
     private String currentTag;
     private LinkedList<PropertyMap> currentPropertyMap;
 
     public SavefileParser(String name, List<String> content) {
         logger.trace("Initializing SavefileParser for {}", name);
         this.name = name;
-        this.root = new PropertyMap(name);
+        this.savefile = new Savefile(name);
         this.currentPropertyMap = new LinkedList<>();
-        this.currentPropertyMap.push(root);
+        this.currentPropertyMap.push(savefile);
         logger.trace("Wrapping content in new datastructure to avoid messing up original");
         this.content = new LinkedList<>(content);
     }
 
-    public PropertyMap parse() {
+    public Savefile parse() {
         logger.debug("Starting parsing of {}", this.name);
         String current = null;
 
@@ -61,7 +63,7 @@ public class SavefileParser {
             }
         }
         logger.debug("Parsing of {} completed.", this.name);
-        return root;
+        return savefile;
     }
 
     private void process(ParserEvents event, String... strings) {
@@ -73,7 +75,7 @@ public class SavefileParser {
                 this.currentTag = strings[0].trim();
                 break;
             case OPENINGBRACKET:
-                this.currentPropertyMap.push(new PropertyMap(currentTag));
+                this.currentPropertyMap.push(MarshallingObjectFactory.create(currentTag));
                 currentTag = null;
                 break;
             case CLOSINGBRACKET:

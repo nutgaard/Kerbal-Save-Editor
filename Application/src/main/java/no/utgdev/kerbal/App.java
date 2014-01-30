@@ -20,6 +20,7 @@ import no.utgdev.kerbal.common.plugin.ViewPlugin;
 import no.utgdev.kerbal.io.SavefileCreator;
 import no.utgdev.kerbal.io.SavefileParser;
 import no.utgdev.kerbal.common.treemodel.PropertyMap;
+import no.utgdev.kerbal.common.treemodel.marshallingObjects.Savefile;
 import no.utgdev.kerbal.mvp.MainFrame;
 import no.utgdev.kerbal.plugin.PluginCache;
 import no.utgdev.kerbal.security.PluginPolicy;
@@ -71,7 +72,7 @@ public class App {
         File from = new File("./quicksave.sfs");
         List<String> content = SavefileReader.read(from);
         SavefileParser parser = new SavefileParser(from.getName(), content);
-        final PropertyMap root = parser.parse();
+        final Savefile root = parser.parse();
 
         logger.info("Initial setup completed, starting GUI.");
         SwingUtilities.invokeLater(new Runnable() {
