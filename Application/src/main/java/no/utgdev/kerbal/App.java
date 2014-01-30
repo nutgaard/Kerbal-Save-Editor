@@ -1,5 +1,7 @@
 package no.utgdev.kerbal;
 
+import ch.qos.logback.classic.filter.ThresholdFilter;
+import ch.qos.logback.core.UnsynchronizedAppenderBase;
 import com.alee.laf.WebLookAndFeel;
 import no.utgdev.kerbal.io.SavefileReader;
 import java.io.File;
@@ -12,6 +14,7 @@ import net.xeoh.plugins.base.PluginManager;
 import net.xeoh.plugins.base.impl.PluginManagerFactory;
 import net.xeoh.plugins.base.options.addpluginsfrom.OptionReportAfter;
 import net.xeoh.plugins.base.util.PluginManagerUtil;
+import no.utgdev.kerbal.common.Settings;
 import no.utgdev.kerbal.common.i18n.I18N;
 import no.utgdev.kerbal.common.plugin.NamedPlugin;
 import no.utgdev.kerbal.common.plugin.OverviewContextMenuPlugin;
@@ -37,49 +40,32 @@ public class App {
     public static Logger logger;
 
     public static void main(String[] args) {
-        Policy.setPolicy(new PluginPolicy());
-        System.setSecurityManager(new SecurityManager());
+        securityConfiguration();
+
+        //Logger must be initiated after security configuration.
         logger = LoggerFactory.getLogger(App.class);
         logger.info("Starting application.");
-        logger.debug("Setting new policy and security manager.");
+
         logger.debug("Rewriting System.out and System.err to utilize slf4j.");
         SysOutOverSLF4J.sendSystemOutAndErrToSLF4J();
+        
+        Settings.getInstance();
+        
+        configureAppenders((ch.qos.logback.classic.Logger) LoggerFactory.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME));
 
-        File currentLocation = new File("./");
-        logger.info("Loading plugins from {}", currentLocation.toURI());
-        PluginManager pmf = PluginManagerFactory.createPluginManager();
-        pmf.addPluginsFrom(currentLocation.toURI(), new OptionReportAfter());
+        loadPluginsFrom(new File("./"));
 
-        PluginManagerUtil pmu = new PluginManagerUtil(pmf);
-
-        Class<? extends NamedPlugin>[] pluginClasses = new Class[]{
-            NamedPlugin.class,
-            ViewPlugin.class,
-            OverviewPlugin.class,
-            OverviewContextMenuPlugin.class
-        };
-        for (Class<? extends NamedPlugin> pluginCls : pluginClasses) {
-            logger.info("Seaching for: {}", pluginCls);
-            Collection plugins = pmu.getPlugins(pluginCls);
-            PluginCache.create(pluginCls, plugins);
-            logger.info("Found {} matches for {}", plugins.size(), pluginCls);
-            for (Plugin p : PluginCache.getInstance(pluginCls).getList()) {
-                logger.debug("  {}", p);
-            }
-        }
         I18N.initiate(PluginCache.getInstance(NamedPlugin.class).getList());
 
-        File from = new File("./quicksave.sfs");
-        List<String> content = SavefileReader.read(from);
-        SavefileParser parser = new SavefileParser(from.getName(), content);
-        final Savefile root = parser.parse();
-
+        
+        final Savefile savefile = loadPreviousOpenFile(new File(Settings.getInstance().getProperty("file.open")));
+        
         logger.info("Initial setup completed, starting GUI.");
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 WebLookAndFeel.install();
-                MainFrame mf = new MainFrame(root);
+                MainFrame mf = new MainFrame(savefile);
             }
         });
         logger.info("Its complete");
@@ -102,5 +88,60 @@ public class App {
         start = System.currentTimeMillis();
         FileAcceptance.verify(from, to);
         logger.debug("Verification: {}", System.currentTimeMillis() - start);
+    }
+
+    private static void securityConfiguration() {
+        Policy.setPolicy(new PluginPolicy());
+        System.setSecurityManager(new SecurityManager());
+    }
+
+    private static void configureAppenders(ch.qos.logback.classic.Logger rootLogger) {
+        logger.info("Applying settings configuration to appenders");
+        
+        Settings settings = Settings.getInstance();
+        
+        UnsynchronizedAppenderBase stdoutAppender = (UnsynchronizedAppenderBase) rootLogger.getAppender("STDOUT");
+        ThresholdFilter stdoutFilter = (ThresholdFilter) stdoutAppender.getCopyOfAttachedFiltersList().get(0);
+        stdoutFilter.setLevel(settings.getProperty("logging.stdout.level"));
+
+        UnsynchronizedAppenderBase fileAppender = (UnsynchronizedAppenderBase) rootLogger.getAppender("FILE");
+        ThresholdFilter fileFilter = (ThresholdFilter) fileAppender.getCopyOfAttachedFiltersList().get(0);
+        fileFilter.setLevel(settings.getProperty("logging.file.level"));
+        logger.info("Configuration of appenders complete.");
+    }
+
+    private static void loadPluginsFrom(File file) {
+        logger.info("Loading plugins from {}", file.toURI());
+        
+        PluginManager pmf = PluginManagerFactory.createPluginManager();
+        pmf.addPluginsFrom(file.toURI(), new OptionReportAfter());
+        PluginManagerUtil pmu = new PluginManagerUtil(pmf);
+
+        Class<? extends NamedPlugin>[] pluginClasses = new Class[]{
+            NamedPlugin.class,
+            ViewPlugin.class,
+            OverviewPlugin.class,
+            OverviewContextMenuPlugin.class
+        };
+        for (Class<? extends NamedPlugin> pluginCls : pluginClasses) {
+            logger.info("Seaching for: {}", pluginCls);
+            Collection plugins = pmu.getPlugins(pluginCls);
+            PluginCache.create(pluginCls, plugins);
+            logger.info("Found {} matches for {}", plugins.size(), pluginCls);
+            for (Plugin p : PluginCache.getInstance(pluginCls).getList()) {
+                logger.debug("  {}", p);
+            }
+        }
+        logger.info("Loading of plugins complete.");
+    }
+
+    private static Savefile loadPreviousOpenFile(File file) {
+        if (!file.exists()){
+            return new Savefile(I18N.getInstance().getString("nofile"));
+        }
+        
+        List<String> content = SavefileReader.read(file);
+        SavefileParser parser = new SavefileParser(file.getName(), content);
+        return parser.parse();
     }
 }

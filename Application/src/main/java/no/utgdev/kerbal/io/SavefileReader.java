@@ -4,6 +4,7 @@
  */
 package no.utgdev.kerbal.io;
 
+import com.google.common.collect.Lists;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,6 +31,7 @@ public class SavefileReader {
             }
         } catch (Exception ex) {
             logger.error("An error accured when reading raw data.", ex);
+            return Lists.newLinkedList();
         }
         logger.debug("Reading completed, found a total of {} lines in file.", list.size());
         return list;

@@ -18,6 +18,10 @@
         <encoder>
             <pattern>%-70([%date{HH:mm:ss.SSS}] &lt;%thread/%logger{0}:%method\(\)::%line&gt;) %level: %msg%n</pattern>
         </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>debug</level>
+            <onMatch></onMatch>
+        </filter>
     </appender>
     <root level="trace">
         <appender-ref ref="STDOUT" />
